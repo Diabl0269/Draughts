@@ -1,0 +1,16 @@
+.boardDisplay{
+    width : 496px;
+    height: 496px;
+    background-color: red;
+    left: 200px;
+    position: absolute;
+}
+.tileDisplay{
+    width: 62px;
+    height: 62px;
+}
+.piece{   
+    width: 59px;
+    height: 62px;
+    border-radius: 50%;
+}

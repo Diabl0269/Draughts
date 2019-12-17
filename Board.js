@@ -1,8 +1,19 @@
-class Board {
-    constructor(state) {
+// const Location = require('./Location');
+// const Piece = require('./Piece.js');
 
-        if (state.length == 8 && state.every(col => { console.log(col); return col.length === Board.prototype.SIZE })) {
+class Board {
+    constructor(game, state) {
+        if (!state) {
+            this.whitesAlive = [];
+            this.blacksAlive = [];
+            this.game = game;
+            this.state = initialState;
+            initializeState(this);
+        }
+        else if (state.length == 8 && state.every(col => { return col.length === Board.prototype.SIZE })) {
             this.boardState = state;
+            this.game.whitesAlive = whitesAlive;
+            this.game.blacksAlive = blacksAlive;
         }
         else throw "state array length (and its inside objects) needs to equal board's size";
     }
@@ -13,42 +24,51 @@ class Board {
         }))
             this.state = newState
     }
+    isOccupied(location) {
+        return this.tileStatus(location) != 'e';
+    }
+    tileStatus(location) {
+        return this.state[location.row][location.col];
+    }
+    successfulMovment(moveFrom, moveTo) {
+        this.tileStatus(moveTo) = this.tileStatus(moveFrom);
+        this.tileStatus(moveFrom) = 'e';
+    }
+    pieceCaptured(location) {
+        let pieceToRemove = this.tileStatus(location); 
+        let aliveList = pieceToRemove.color ? this.game.whitesAlive:this.game.blacksAlive;
+        let index = aliveList.indexOf(pieceToRemove);
+        aliveList.splice(index,1);
+        this.tileStatus(location) = 'e';
+    }
 }
+
 Object.defineProperty(Board.prototype, 'SIZE', {
     value: 8,
     writable: false,
     configurable: false,
     enumerable: true
 });
-//const initialState = new Array(new Array(), new Array(), new Array(), new Array(),
-//   new Array(), new Array(), new Array(), new Array());
-const initialState = new Array();
 
+const initialState = new Array();
 //top left is white empty tile, blacks on top
-for (let i = 0; i < Board.prototype.SIZE; i++) {
-    initialState.push(new Array());
-    var tile;
-    for (let j = 0; j < Board.prototype.SIZE; j++) {
-        var tileIndex = i + j;
-        if (i < 3 && (tileIndex % 2 != 0))
-            tile = 'b';
-        else if (i > 4 && (tileIndex % 2 != 0))
-            tile = 'w';
-        else
-            tile = 'e';
-        initialState[i].push(tile);
+function initializeState(board) {
+    for (let row = 0; row < Board.prototype.SIZE; row++) {
+        initialState.push(new Array());
+        var tile;
+        for (let col = 0; col < Board.prototype.SIZE; col++) {
+            var tileIndex = row + col;
+            if (row < 3 && (tileIndex % 2 != 0)) {
+                tile = new Piece(board, new Location(row, col), false);
+                board.blacksAlive.push(tile);
+            }
+            else if (row > 4 && (tileIndex % 2 != 0)) {
+                tile = new Piece(board, new Location(row, col), true);
+                board.whitesAlive.push(tile);
+            }
+            else
+                tile = 'e';
+            initialState[row].push(tile);
+        }
     }
 }
-
-// [{arr : new Array(8),
-//             function name(params) {
-
-//             }}]
-
-//test
-// let arr = new Array(8);
-// for (let i = 0; i < Board.prototype.SIZE; i++) {
-//      arr[i] = new Array(Board.prototype.SIZE);
-// }
-// var b = new Board(arr);
-var c = new Board(initialState);
