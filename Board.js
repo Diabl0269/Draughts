@@ -4,8 +4,6 @@
 class Board {
     constructor(game, state) {
         if (!state) {
-            this.whitesAlive = [];
-            this.blacksAlive = [];
             this.game = game;
             this.state = initialState;
             initializeState(this);
@@ -60,11 +58,11 @@ function initializeState(board) {
             var tileIndex = row + col;
             if (row < 3 && (tileIndex % 2 != 0)) {
                 tile = new Piece(board, new Location(row, col), false);
-                board.blacksAlive.push(tile);
+                board.game.blacksAlive.push(tile);
             }
             else if (row > 4 && (tileIndex % 2 != 0)) {
                 tile = new Piece(board, new Location(row, col), true);
-                board.whitesAlive.push(tile);
+                board.game.whitesAlive.push(tile);
             }
             else
                 tile = 'e';
