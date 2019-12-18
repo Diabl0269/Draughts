@@ -4,14 +4,12 @@
 class Board {
     constructor(game, state) {
         if (!state) {
-            this.whitesAlive = [];
-            this.blacksAlive = [];
             this.game = game;
             this.state = initialState;
             initializeState(this);
         }
         else if (state.length == 8 && state.every(col => { return col.length === Board.prototype.SIZE })) {
-            this.boardState = state;
+            this.state = state;
             this.game.whitesAlive = whitesAlive;
             this.game.blacksAlive = blacksAlive;
         }
@@ -22,24 +20,29 @@ class Board {
         if (newState.length == 8 && newState.every(col => {
             return col.length === Board.prototype.SIZE
         }))
-            this.state = newState
+            this.state = newState;
+        else throw 'board length is incorrect';
     }
+
     isOccupied(location) {
         return this.tileStatus(location) != 'e';
     }
+
     tileStatus(location) {
         return this.state[location.row][location.col];
     }
+
     successfulMovment(moveFrom, moveTo) {
         this.tileStatus(moveTo) = this.tileStatus(moveFrom);
         this.tileStatus(moveFrom) = 'e';
     }
+
     pieceCaptured(location) {
-        let pieceToRemove = this.tileStatus(location); 
-        let aliveList = pieceToRemove.color ? this.game.whitesAlive:this.game.blacksAlive;
+        let pieceToRemove = this.tileStatus(location);
+        let aliveList = pieceToRemove.color ? this.game.whitesAlive : this.game.blacksAlive;
         let index = aliveList.indexOf(pieceToRemove);
-        aliveList.splice(index,1);
-        this.tileStatus(location) = 'e';
+        aliveList.splice(index, 1);
+        this.state[location.row][location.col] = 'e';
     }
 }
 
@@ -60,11 +63,11 @@ function initializeState(board) {
             var tileIndex = row + col;
             if (row < 3 && (tileIndex % 2 != 0)) {
                 tile = new Piece(board, new Location(row, col), false);
-                board.blacksAlive.push(tile);
+                board.game.blacksAlive.push(tile);
             }
             else if (row > 4 && (tileIndex % 2 != 0)) {
                 tile = new Piece(board, new Location(row, col), true);
-                board.whitesAlive.push(tile);
+                board.game.whitesAlive.push(tile);
             }
             else
                 tile = 'e';
@@ -72,3 +75,4 @@ function initializeState(board) {
         }
     }
 }
+

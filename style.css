@@ -14,3 +14,9 @@
     height: 62px;
     border-radius: 50%;
 }
+.king{
+    text-align: center;
+    line-height: 4em;
+    color: red;
+    content: 'K';
+}

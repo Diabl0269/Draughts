@@ -4,5 +4,3 @@ class Location {
         this.col = col;
     }
 }
-
-// module.exports = Location;

@@ -1,6 +1,3 @@
-// const Board = require('./Board');
-// const Location = require('./Location');
-
 //color: true - white, false - black
 class Piece {
     constructor(board, location, color) {
@@ -9,35 +6,35 @@ class Piece {
         this.color = color;
         this.movingDirection = color ? -1 : 1;
     }
-    move(toLocation) {
-        if (toLocation.row != this.location.row + this.movingDirection &&
-            toLocation.row != this.location.row + this.movingDirection * 2)
-            alert('Invalid moving location');
+    isLegalMove(toLocation) {     
+        if (!((toLocation.row == (Number(this.location.row) + Number(this.movingDirection)) &&
+            (toLocation.col == Number(this.location.col) + 1 || toLocation.col == Number(this.location.col) - 1))
+            || ((toLocation.row == (Number(this.location.row)) + Number(this.movingDirection) * 2) &&
+            (toLocation.col == Number(this.location.col) + 2 || toLocation.col == Number(this.location.col) - 2))))
+            return alert('Invalid moving location');
         else if (this.board.isOccupied(toLocation))
-            alert('Board is occupied');
-        else if ((toLocation.col == this.location.col + 1 || toLocation.col == this.location - 1)
-            && toLocation.row == this.location.row + this.movingDirection)
-            return successfulMovement(this.location, toLocation);
-        else if ((toLocation.col == this.location.col + 2 || toLocation.col == this.location - 2)
-            && (toLocation.row == this.location.row + this.movingDirection * 2)) {
+            return alert('Board is occupied');
+        else if ((toLocation.col == Number(this.location.col) + 1 || toLocation.col == Number(this.location.col) - 1)
+            && toLocation.row == Number(this.location.row) + Number(this.movingDirection))
+            return true;
+        else if ((toLocation.col == Number(this.location.col) + 2 || toLocation.col == Number(this.location.col) - 2)
+            && (toLocation.row == Number(this.location.row) + Number(this.movingDirection) * 2)) {
             let colAdvance = toLocation.col > this.location.col ? 1 : -1;
-            let jumpedTile = new Location(this.location.row + this.movingDirection, colAdvance);
+            let jumpedTile = new Location(Number(this.location.row) + Number(this.movingDirection), Number(this.location.col) + Number(colAdvance));
             if (this.board.isOccupied(jumpedTile) && this.isEnemy(jumpedTile)) {
                 this.board.pieceCaptured(jumpedTile);
-                return successfulMovement(this.location, toLocation);
+                return true;
             }
+            else alert("Can't capture an ally piece");
         }
     }
 
+    isEnemy(toLocation) {
+        return this.board.tileStatus(toLocation).color !== this.color;
+    }
+
+    //this method will be used for the display
     getColor() {
         return this.color ? 'white' : 'grey';
     }
-
-    isEnemy(toLocation) {
-        return this.board.tileStatus(toLocation).color === this.color;
-    }
 }
-
-// module.exports={
-//    Piece: Piece
-// }
