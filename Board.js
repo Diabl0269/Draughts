@@ -1,6 +1,3 @@
-// const Location = require('./Location');
-// const Piece = require('./Piece.js');
-
 class Board {
     constructor(game, state) {
         if (!state) {
@@ -15,7 +12,7 @@ class Board {
         }
         else throw "state array length (and its inside objects) needs to equal board's size";
     }
-    get boardState() { return this.boardState; } //board state is a 2d array of length 8*8
+    get boardState() { return this.boardState; }
     set boardState(newState) {
         if (newState.length == 8 && newState.every(col => {
             return col.length === Board.prototype.SIZE
@@ -29,7 +26,9 @@ class Board {
     }
 
     tileStatus(location) {
-        return this.state[location.row][location.col];
+        if (location.row >= 0 && location.row < this.SIZE && location.col >= 0 && location.col < this.SIZE)
+            return this.state[location.row][location.col];
+        else return false;
     }
 
     successfulMovment(moveFrom, moveTo) {

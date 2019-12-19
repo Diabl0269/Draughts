@@ -51,15 +51,20 @@ function printBoardState(state) {
                 }
                 tile.appendChild(piece);
             }
+            else {
+                let tile = document.getElementById(`${row} ${col}`);
+                let emptyTile = document.createElement('div');
+                emptyTile.className = 'tileDisplay';
+                tile.appendChild(emptyTile);
+            }
         }
     }
 }
 
-function deletePiece(row, col) {
-    let piece = document.getElementById(`${row} ${col}`).firstChild;
-    piece.parentNode.removeChild(piece);
-}
+// function deletePiece(row, col) {
+//     let piece = document.getElementById(`${row} ${col}`).firstChild;
+//     piece.parentNode.removeChild(piece);
+// }
 
 let g = new Game();
-g.board.state[0][1] = new King(g.board, new Location(0,1), false);
 printBoard(g);

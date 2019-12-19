@@ -3,20 +3,23 @@
     height: 496px;
     background-color: red;
     left: 200px;
-    position: absolute;
+    position: relative;
 }
 .tileDisplay{
     width: 62px;
     height: 62px;
+    position: static;
 }
 .piece{   
     width: 59px;
-    height: 62px;
+    height: 59px;
     border-radius: 50%;
+    position: static;
 }
 .king{
     text-align: center;
     line-height: 4em;
     color: red;
     content: 'K';
+    position: static;
 }
