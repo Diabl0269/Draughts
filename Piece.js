@@ -17,9 +17,16 @@ class Piece {
         else if ((toLocation.col == Number(this.location.col) + 1 || toLocation.col == Number(this.location.col) - 1)
             && toLocation.row == Number(this.location.row) + Number(this.movingDirection))
             return true;
-        else if ((toLocation.col == Number(this.location.col) + 2 || toLocation.col == Number(this.location.col) - 2)
-            && (toLocation.row == Number(this.location.row) + Number(this.movingDirection) * 2)) {
-             return true;
+
+        console.log(Math.abs(Number(toLocation.col) - Number(this.location.col)));
+        console.log(Math.abs(Number(toLocation.col) - Number(this.location.col)));
+
+
+        if (Math.abs(Number(toLocation.col) - Number(this.location.col)) == 2 && Math.abs(Number(toLocation.col) - Number(this.location.col))) {
+            let colAdvance = toLocation.col > this.location.col ? 1 : -1;
+            let rowAdvance = toLocation.row > this.location.row ? 1 : -1;
+            let jumpedTile = new Location(Number(this.location.row) + rowAdvance, Number(this.location.col) + colAdvance);
+            return this.board.isOccupied(jumpedTile) && this.isEnemy(jumpedTile);
         }
     }
 
