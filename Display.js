@@ -67,4 +67,5 @@ function printBoardState(state) {
 // }
 
 let g = new Game();
+g.board.state[5][0] = new King(g.board,new Location(5,0), true);
 printBoard(g);

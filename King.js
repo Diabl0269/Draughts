@@ -8,16 +8,19 @@ class King extends Piece {
     isLegalMove(toLocation) {
 
         if (!this.legalLocations().some(location => location.row == toLocation.row && location.col == toLocation.col))
-            return false;
+            return false;  
         else if (this.board.isOccupied(toLocation))
             return false;                  //alert('Board is occupied');
+            else if(Math.abs(Number(toLocation.row) - Number(this.location.row)) == 1){
+                return true;
+            }
         else {
-            let colAdvance = toLocation.col > this.location.row ? 1 : -1;
+            let colAdvance = toLocation.col > this.location.col ? 1 : -1;
             let rowAdvance = toLocation.row > this.location.row ? 1 : -1;
             let jumpedTile = new Location(Number(this.location.row) + rowAdvance, Number(this.location.col) + colAdvance);
-            if (Math.abs(Number(toLocation.row) - Number(this.location.row) == 2))
+            // if (Math.abs(Number(toLocation.row) - Number(this.location.row) == 2))
                 return this.board.isOccupied(jumpedTile) && this.isEnemy(jumpedTile);
-            else return true;
+            // else return true;
             // else if (Math.abs(toLocation.row - Number(this.location.row)) == 1)
             //     return true;
 
