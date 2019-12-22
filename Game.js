@@ -11,7 +11,6 @@ class Game {
     }
 
     move(moveFrom, moveTo) {
-        //turn check
         if (this.turn == this.board.tileStatus(moveFrom).color) {
             if (this.pieceThatHasToMove) {
                 if ((this.board.tileStatus(moveFrom) != this.pieceThatHasToMove) ||
@@ -32,26 +31,7 @@ class Game {
             }
             else alert("You can't do this");
 
-
-            // this.board.state[moveTo.row][moveTo.col] = this.board.tileStatus(moveFrom);
-            // this.board.state[moveFrom.row][moveFrom.col] = 'e';
-            // this.board.tileStatus(moveTo).location = moveTo;
-            // let piece = this.board.tileStatus(moveTo);
-            // if ((moveTo.row == 0 && piece.color) || (moveTo.row == 7 && !piece.color)) {
-            //     this.board.state[moveTo.row][moveTo.col] = new King(this.board, moveTo, piece.color);
-            // }
-            // //add multiple eating
-            // if ((moveTo.row == moveFrom.row + 2 || moveTo.row == moveFrom.row - 2) &&
-            //     this.isCapturingWithPieceAvailable(piece)) {
-            //     this.pieceThatHasToMove = piece;
-            // }
-            // else {
-            //                                              this.turn = !this.turn; IMPORTANT
-            //     this.pieceThatHasToMove = null;
-            // }
-
         }
-        //else alert("Other's side turn");
         else alert("Other's color turn");
     }
 
@@ -90,7 +70,6 @@ class Game {
         this.board.state[moveFrom.row][moveFrom.col] = 'e';
         this.board.tileStatus(moveTo).location = moveTo;
         let piece = this.board.tileStatus(moveTo);
-        // this.capturing(piece, moveFrom);
         if (this.capturing(piece, moveFrom) && this.isCapturingWithPieceAvailable(new King(this.board, piece.location, piece.color))) {
             this.canAnybodyCapture();
             return this.pieceThatHasToMove = piece;
@@ -100,15 +79,7 @@ class Game {
             let index = aliveList.indexOf(piece);
             aliveList[index] = new King(this.board, piece.location, piece.color);
             this.board.state[moveTo.row][moveTo.col] = aliveList[index];
-            // this.board.state[moveTo.row][moveTo.col] = new King(this.board, moveTo, piece.color);
-            // piece = this.board.state[moveTo.row][moveTo.col];
-
         }
-        //multiple eating
-        // if ((moveTo.row == moveFrom.row + 2 || moveTo.row == moveFrom.row - 2) &&
-        //     this.isCapturingWithPieceAvailable(piece)) {
-        //     this.pieceThatHasToMove = piece;
-        // }
         this.canAnybodyMove();
         this.pieceThatHasToMove = null;
         this.turn = !this.turn;
@@ -128,8 +99,7 @@ class Game {
             piece.board.pieceCaptured(jumpedTile);
             return true;
         }
-        // else alert("Can't capture an ally piece");
-         return false;
+        return false;
     }
 
     isCapturingWithPieceAvailable(piece) {
@@ -141,14 +111,9 @@ class Game {
             (this.board.isOccupied(bottomRight) && piece.isEnemy(bottomRight) && !this.board.isOccupied(new Location(piece.location.row + 2, piece.location.col + 2)));
         let topCheck = (this.board.isOccupied(topRight) && piece.isEnemy(topRight) && !this.board.isOccupied(new Location(piece.location.row - 2, piece.location.col + 2))) ||
             (this.board.isOccupied(topLeft) && piece.isEnemy(topLeft) && !this.board.isOccupied(new Location(piece.location.row - 2, piece.location.col - 2)));
-
         if (piece instanceof King)
             return topCheck || bottomCheck;
         return piece.color ? topCheck : bottomCheck;
-        // return ((this.board.isOccupied(bottomRight) && piece.isEnemy(bottomRight) && !this.board.isOccupied(new Location(piece.location.row + 2, piece.location.col + 2)) ||
-        //     (this.board.isOccupied(topRight) && piece.isEnemy(topRight) && !this.board.isOccupied(new Location(piece.location.row - 2, piece.location.col + 2))) ||
-        //     (this.board.isOccupied(topLeft) && piece.isEnemy(topLeft) && !this.board.isOccupied(new Location(piece.location.row - 2, piece.location.col - 2))) ||
-        //     (this.board.isOccupied(bottomLeft) && piece.isEnemy(bottomLeft) && !this.board.isOccupied(new Location(piece.location.row + 2, piece.location.col - 2)))));
     }
     isCaptureingWithAnyPieceAvailable(aliveList) {
         for (let piece of aliveList) {

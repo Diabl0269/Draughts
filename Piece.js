@@ -17,22 +17,10 @@ class Piece {
         else if ((toLocation.col == Number(this.location.col) + 1 || toLocation.col == Number(this.location.col) - 1)
             && toLocation.row == Number(this.location.row) + Number(this.movingDirection))
             return true;
-        // else ;
-
-
         else if ((toLocation.col == Number(this.location.col) + 2 || toLocation.col == Number(this.location.col) - 2)
             && (toLocation.row == Number(this.location.row) + Number(this.movingDirection) * 2)) {
-                // return this.board.game.capturing(this, toLocation);
-
              return true;
         }
-        //     let colAdvance = toLocation.col > this.location.col ? 1 : -1;
-        //     let jumpedTile = new Location(Number(this.location.row) + Number(this.movingDirection), Number(this.location.col) + Number(colAdvance));
-        //     if (this.board.isOccupied(jumpedTile) && this.isEnemy(jumpedTile)) {
-        //         this.board.pieceCaptured(jumpedTile);
-        //         return true;
-        //     }
-        //     else alert("Can't capture an ally piece");
     }
 
 
