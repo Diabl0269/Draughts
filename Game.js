@@ -1,8 +1,8 @@
 class Game {
 //blablabalblagbladsfdw
     constructor() {
-        athis.whitesAlive = [];
-//ldfkj
+        this.whitesAlive = [];
+
         this.blacksAlive = [];
         this.gameRecord = [];
         this.board = new Board(this);
