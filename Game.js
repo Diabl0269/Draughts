@@ -1,4 +1,5 @@
 class Game {
+//blablabalblagbladsfdw
     constructor() {
         this.whitesAlive = [];
         this.blacksAlive = [];
